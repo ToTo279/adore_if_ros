@@ -1063,7 +1063,7 @@ target_link_libraries(plainxmlexporter
 
 add_executable(test_graphSearch src/test_graphSearch.cpp)
 target_include_directories(test_graphSearch PRIVATE include ${catkin_INCLUDE_DIRS})
-target_link_libraries(test_graphSearch PRIVATE ${catkin_LIBRARIES} libadore::apps libadore::fun libadore::env libadore::sim libadore::mad)
+target_link_libraries(test_graphSearch PRIVATE ${catkin_LIBRARIES} libadore::apps libadore::fun libadore::env libadore::sim libadore::mad adore_if_ros_scheduling::adore_if_ros_scheduling)
 
 
 

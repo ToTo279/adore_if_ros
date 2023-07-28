@@ -12,7 +12,7 @@
  *   Reza Dariani- initial API and implementation
  ********************************************************************************/
 
-#include <adore_if_ros/baseapp.h>
+#include <adore_if_ros_scheduling/baseapp.h>
 #include <adore/apps/graph_search.h>
 
 namespace adore
