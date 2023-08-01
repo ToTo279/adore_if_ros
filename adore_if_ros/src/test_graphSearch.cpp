@@ -19,14 +19,14 @@ namespace adore
 {
     namespace if_ROS
     {
-        class GraphSearchNode : public Baseapp
+        class GraphSearchNode : public adore_if_ros_scheduling::Baseapp
         {
         public:
             adore::apps::GraphSearch *gs_;
             GraphSearchNode() {}
             void init(int argc, char **argv, double rate, std::string nodename)
             {
-                Baseapp::init(argc, argv, rate, nodename);
+                adore_if_ros_scheduling::Baseapp::init(argc, argv, rate, nodename);
                 Baseapp::initSim();
                 gs_ = new adore::apps::GraphSearch(Baseapp::getRosNodeHandle());
 
