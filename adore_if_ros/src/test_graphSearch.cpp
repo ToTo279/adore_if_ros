@@ -28,11 +28,11 @@ namespace adore
             {
                 adore_if_ros_scheduling::Baseapp::init(argc, argv, rate, nodename);
                 Baseapp::initSim();
-                gs_ = new adore::apps::GraphSearch(Baseapp::getRosNodeHandle());
+                gs_ = new adore::apps::GraphSearch(adore_if_ros_scheduling::Baseapp::getRosNodeHandle());
 
                 // timer callbacks
                 std::function<void()> run_fcn(std::bind(&adore::apps::GraphSearch::update, gs_));
-                Baseapp::addTimerCallback(run_fcn);
+                adore_if_ros_scheduling::Baseapp::addTimerCallback(run_fcn);
             }
         };
     } // namespace if_ROS
