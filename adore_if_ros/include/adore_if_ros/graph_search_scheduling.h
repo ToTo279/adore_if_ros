@@ -37,22 +37,22 @@
 //New:
 //#include "Vector3.h"
 //#include "Quaternion.h"
-//#include <Matrix3x3.h>
-#include <adore/apps/graph_search.h>
+#include <Matrix3x3.h>
+//#include <adore/apps/graph_search.h>
 
 
-/*namespace adore
+namespace adore
 {
-namespace apps
-{
+//namespace apps
+//{
     /**
      * 
      */
-namespace adore_if_ros_scheduling
+namespace if_ROS
 {
     class GraphSearch
     {
-        /*private:
+        private:
         //typedef boost::geometry::model::point<double,2,boost::geometry::cs::cartesian> Vector;
             DLR_TS::PlotLab::FigureStubFactory fig_factory;
             DLR_TS::PlotLab::AFigureStub* figure3;  
@@ -115,7 +115,7 @@ namespace adore_if_ros_scheduling
 
 
         }
-        /*void update()
+        void update()
         {
         //--------------------------
                
@@ -148,21 +148,21 @@ namespace adore_if_ros_scheduling
                 
             }
 
-        }*/
+        }
 
 
 
-    void receiveStartPose(geometry_msgs::Pose msg)
+    void receiveStartPose(double x,y,z,w)
     {
-        double r,p,y;
-        tf::Matrix3x3(tf::Quaternion(msg.orientation.x,msg.orientation.y,msg.orientation.z,msg.orientation.w)).getRPY(r,p,y);
+        //double r,p,y;
+        tf::Matrix3x3(tf::Quaternion(x,y,z,w)).getRPY(r,p,y);
         validStart = Start.setPosition(msg.position.x,msg.position.y,y,Width,Length,Depth,adore::mad::CoordinateConversion::DegToRad(HeadingResolution), figure3);
         //Start.print();
     }  
-    void receiveEndPose(geometry_msgs::Pose msg)
+    void receiveEndPose(double x,y,z,w)
     {
-        double r,p,y;
-        tf::Matrix3x3(tf::Quaternion(msg.orientation.x,msg.orientation.y,msg.orientation.z,msg.orientation.w)).getRPY(r,p,y);
+        //double r,p,y;
+        tf::Matrix3x3(tf::Quaternion(x,y,z,w)).getRPY(r,p,y);
         validEnd = End.setPosition(msg.position.x,msg.position.y,y,Width,Length,Depth, adore::mad::CoordinateConversion::DegToRad(HeadingResolution),  figure3);
         //End.print();
     }
@@ -171,5 +171,5 @@ namespace adore_if_ros_scheduling
              
     };
 }
-
+}
 
