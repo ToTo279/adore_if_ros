@@ -14,12 +14,13 @@
 
 #include <adore_if_ros_scheduling/baseapp.h>
 #include <adore/apps/graph_search.h>
+#include <adore_if_ros/factorycollection.h> 
 
 namespace adore
 {
     namespace if_ROS
     {
-        class GraphSearchNode : public adore_if_ros_scheduling::Baseapp
+        class GraphSearchNode : public FactoryCollection,public adore_if_ros_scheduling::Baseapp
         {
         public:
             adore::apps::GraphSearch *gs_;
@@ -28,10 +29,10 @@ namespace adore
             {
                 adore_if_ros_scheduling::Baseapp::init(argc, argv, rate, nodename);
                 Baseapp::initSim();
-                gs_ = new adore::apps::GraphSearch(adore_if_ros_scheduling::Baseapp::getRosNodeHandle());
+                gs_ = new adore::apps::GraphSearch();
 
                 // timer callbacks
-                std::function<void()> run_fcn(std::bind(&adore::apps::GraphSearch::update, gs_));
+                std::function<void()> run_fcn(std::bind(&adore::apps::TrajectoryPlannerBase::planning_request_handler, gs_));
                 adore_if_ros_scheduling::Baseapp::addTimerCallback(run_fcn);
             }
         };
