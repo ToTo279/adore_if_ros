@@ -52,7 +52,7 @@ namespace adore
 
       void receive(adore_if_ros_msg::PointArrayConstPtr msg)
       {
-        msg->x = app_->
+        //msg->x = app_->
         //TO DO: Plotting der occupenciey mit den Koordinaten msg->x & msg->y
 
         Eigen::MatrixXd Grid;
@@ -61,7 +61,7 @@ namespace adore
         {                    
           for(int c=0; c<y->size(); ++c)
           {
-            Grid(x(r),y(c)) = 1;
+            Grid(x[r],y[c]) = 1;
           }
 
         }

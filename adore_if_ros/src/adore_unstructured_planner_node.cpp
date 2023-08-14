@@ -14,7 +14,7 @@
 
 #include <adore_if_ros_scheduling/baseapp.h>
 #include <adore_if_ros/factorycollection.h>
-#include <adore/apps/platoon_view_provider.h>
+#include <adore/apps/basicunstructuredplanner.h>
 
 
 namespace adore
@@ -35,15 +35,13 @@ namespace adore
         app_ = new adore::apps::BasicUnstructuredPlanner();
 
         // timer callbacks
-        std::function<void()> run_fcn(std::bind(&adore::apps::PlotGraphSearch::run,app_));
+        // RUN function ???
+        std::function<void()> run_fcn(std::bind(&adore::apps::BasicUnstructuredPlanner::run,app_));
         Baseapp::addTimerCallback(run_fcn);
         occupancies_publisher_ = getRosNodeHandle()->publish("occupancies",1,&PlotUnstructuredPlannerNode::send,this);
       }
       void send(adore_if_ros_msg::PointArrayConstPtr msg)
       {
-        std::vector<int> x;
-        std::vector<int> x;
-
         msg->x = app_->getOccupancies_x();
         msg->y = app_->getOccupancies_y();
 
