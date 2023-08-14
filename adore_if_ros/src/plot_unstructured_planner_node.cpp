@@ -54,6 +54,18 @@ namespace adore
       {
         msg->x = app_->
         //TO DO: Plotting der occupenciey mit den Koordinaten msg->x & msg->y
+
+        Eigen::MatrixXd Grid;
+
+        for (int r=0; r<x->size(); ++r)
+        {                    
+          for(int c=0; c<y->size(); ++c)
+          {
+            Grid(x(r),y(c)) = 1;
+          }
+
+        }
+
       }
 
     };
