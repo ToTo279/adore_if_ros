@@ -17,6 +17,7 @@
 #include <adore_if_ros_scheduling/baseapp.h>
 #include <adore_if_ros/factorycollection.h>
 #include <string>
+#include <adore_if_ros_msg/PointArray.h>
 
 namespace adore
 {
@@ -25,8 +26,9 @@ namespace adore
     class PlotUnstructuredPlanNode : public FactoryCollection, public adore_if_ros_scheduling::Baseapp
     {
       public:
-      adore::apps::PlotSatImages* app_;
-      PlotSatImagesNode(){}
+      adore::apps::PlotGraphSearch* app_;
+      ros::Subscriber occupancies_subscriber_; 
+      PlotUnstructuredPlanNode(){}
       void init(int argc, char **argv, double rate, std::string nodename)
       {
         Baseapp::init(argc, argv, rate, nodename);
@@ -39,17 +41,21 @@ namespace adore
         getParam("simulationID",simulationID);
         
 
-
-
-
-
         std::stringstream ss;
         ss<<"v"<<simulationID<<"/unstructured/";
         app_ = new adore::apps::PlotGraphSearch(figure,
                                             ss.str());
         std::function<void()> run_fcn(std::bind(&adore::apps::PlotGraphSearch::run,app_));
         Baseapp::addTimerCallback(run_fcn);
+        occupancies_subscriber_ = getRosNodeHandle()->subscribe("occupancies",1,&PlotUnstructuredPlannerNode::receive,this); 
       }
+
+      void receive(adore_if_ros_msg::PointArrayConstPtr msg)
+      {
+        msg->x = app_->
+        //TO DO: Plotting der occupenciey mit den Koordinaten msg->x & msg->y
+      }
+
     };
   }
 }
