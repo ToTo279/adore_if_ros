@@ -23,12 +23,12 @@ namespace adore
 {
   namespace if_ROS
   {  
-    class PlotUnstructuredPlanNode : public FactoryCollection, public adore_if_ros_scheduling::Baseapp
+    class PlotOccupancyGridNode : public FactoryCollection, public adore_if_ros_scheduling::Baseapp
     {
       public:
       adore::apps::PlotGraphSearch* app_;
       ros::Subscriber occupancies_subscriber_; 
-      PlotUnstructuredPlanNode(){}
+      PlotOccupancyGridNode(){}
       void init(int argc, char **argv, double rate, std::string nodename)
       {
         Baseapp::init(argc, argv, rate, nodename);
@@ -47,7 +47,7 @@ namespace adore
                                             ss.str());
         std::function<void()> run_fcn(std::bind(&adore::apps::PlotGraphSearch::run,app_));
         Baseapp::addTimerCallback(run_fcn);
-        occupancies_subscriber_ = getRosNodeHandle()->subscribe("occupancies",1,&PlotUnstructuredPlannerNode::receive,this); 
+        occupancies_subscriber_ = getRosNodeHandle()->subscribe("occupancies",1,&PlotOccupancyGridNode::receive,this); 
       }
 
       void receive(adore_if_ros_msg::PointArrayConstPtr msg)
@@ -55,16 +55,10 @@ namespace adore
         //msg->x = app_->
         //TO DO: Plotting der occupenciey mit den Koordinaten msg->x & msg->y
 
-        Eigen::MatrixXd Grid;
+        
 
-        for (int r=0; r<x->size(); ++r)
-        {                    
-          for(int c=0; c<y->size(); ++c)
-          {
-            Grid(x[r],y[c]) = 1;
-          }
-
-        }
+        app_->occupancies_x = msg->x;
+        app_->occupancies_y = msg->y;
 
       }
 
@@ -74,8 +68,8 @@ namespace adore
 
 int main(int argc,char **argv)
 {
-    adore::if_ROS::PlotUnstructuredPlanNode appnode;    
-    appnode.init(argc, argv, 10, "plot_unstructured_plan");
+    adore::if_ROS::PlotOccupancyGridNode appnode;    
+    appnode.init(argc, argv, 10, "plot_occupancy_grid");
     appnode.run();
     return 0;
 }

@@ -33,17 +33,28 @@ namespace adore
         Baseapp::initSim();
         FactoryCollection::init(getRosNodeHandle());
         app_ = new adore::apps::BasicUnstructuredPlanner();
-
+        bool use_scheduler = false;
+        getRosNodeHandle()->getParam("/use_scheduler",use_scheduler);
+        if(use_scheduler)
+        {
+          std::function<void()> run_fcn(std::bind(&adore::apps::TrajectoryPlannerBase::planning_request_handler,planner_));
+          Baseapp::addTimerCallback(run_fcn);
+        }
+        else
+        {
+          planner_->prime();//node is executed event-based on PlanningRequest, prime sets trigger
+        }
         // timer callbacks
-        // RUN function ???
-        std::function<void()> run_fcn(std::bind(&adore::apps::BasicUnstructuredPlanner::run,app_));
+        std::function<void()> run_fcn(std::bind(&PlotUnstructuredPlannerNode::publish_occupancy_grid,this));
         Baseapp::addTimerCallback(run_fcn);
-        occupancies_publisher_ = getRosNodeHandle()->publish("occupancies",1,&PlotUnstructuredPlannerNode::send,this);
+        occupancies_publisher_ = getRosNodeHandle()->advertise<adore_if_ros_msg::PointArray>("occupancies",1);
       }
-      void send(adore_if_ros_msg::PointArrayConstPtr msg)
+      void publish_occupancy_grid()
       {
-        msg->x = app_->getOccupancies_x();
-        msg->y = app_->getOccupancies_y();
+        adore_if_ros_msg::PointArray msg;
+        msg.x = app_->getOccupancies_x();
+        msg.y = app_->getOccupancies_y();
+        occupancies_publisher_.publish(msg);
 
       }
     };
@@ -53,7 +64,7 @@ namespace adore
 int main(int argc,char **argv)
 {
     adore::if_ROS::UnstructuredPlanNode node;
-    node.init(argc, argv, 20.0, "adore_unstructured_plan_node");
+    node.init(argc, argv, 10.0, "adore_unstructured_plan_node");
     node.run();
     return 0;
 }
