@@ -52,11 +52,7 @@ namespace adore
 
       void receive(adore_if_ros_msg::PointArrayConstPtr msg)
       {
-        //msg->x = app_->
         //TO DO: Plotting der occupenciey mit den Koordinaten msg->x & msg->y
-
-        
-
         app_->occupancies_x = msg->x;
         app_->occupancies_y = msg->y;
 
