@@ -957,6 +957,7 @@ target_link_libraries(adore_unstructured_planner_node
                           libadore::if_r2s 
                           dlib::dlib
                           adore_if_ros_scheduling::adore_if_ros_scheduling
+                          plotlablib::plotlablib
 )
 
 add_executable(adore_trajectory_planner_lm_node src/adore_trajectory_planner_lm_node.cpp)
