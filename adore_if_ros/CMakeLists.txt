@@ -940,6 +940,25 @@ target_link_libraries(adore_trajectory_planner_lf_node
                           adore_if_ros_scheduling::adore_if_ros_scheduling
 )
 
+add_executable(adore_unstructured_planner_node src/adore_unstructured_planner_node.cpp)
+target_include_directories(
+    adore_unstructured_planner_node
+    PRIVATE
+    include 
+    ${catkin_INCLUDE_DIRS}
+)
+target_link_libraries(adore_unstructured_planner_node 
+                        PRIVATE 
+                          ${catkin_LIBRARIES} 
+                          libadore::apps 
+                          libadore::fun 
+                          libadore::env 
+                          libadore::sim 
+                          libadore::if_r2s 
+                          dlib::dlib
+                          adore_if_ros_scheduling::adore_if_ros_scheduling
+)
+
 add_executable(adore_trajectory_planner_lm_node src/adore_trajectory_planner_lm_node.cpp)
 target_include_directories(
     adore_trajectory_planner_lm_node 
@@ -1147,6 +1166,7 @@ install(
     adore_trajectory_planner_lm_node
     adore_trajectory_planner_lc_node
     adore_trajectory_planner_alc_node
+    adore_unstructured_planner_node
     adore_tactical_planner_node
     test_lc_trajectory_planner_node
     test_straight_line_prediction_node
