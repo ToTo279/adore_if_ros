@@ -15,6 +15,7 @@
 #include <adore_if_ros_scheduling/baseapp.h>
 #include <adore_if_ros/factorycollection.h>
 
+#include <adore_if_ros_msg/PointArray.h>
 #include <adore/apps/trajectory_planner_base.h>
 #include <adore/fun/basicunstructuredplanner.h>
 
@@ -62,9 +63,10 @@ namespace adore
       }
       void publish_occupancy_grid()
       {
-        adore_if_ros_msg::PointArrayConstPtr msg;
-        msg.x = app_->getOccupancies_x();
-        msg.y = app_->getOccupancies_y();
+        adore_if_ros_msg::PointArray msg;
+        //msg.x = app_->getOccupancies_x();
+        msg.x = *app_->getOccupancies_x();
+        msg.y = *app_->getOccupancies_y();
         occupancies_publisher_.publish(msg);
 
       }
