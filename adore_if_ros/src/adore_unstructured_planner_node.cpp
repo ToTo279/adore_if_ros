@@ -58,13 +58,11 @@ namespace adore
         std::function<void()> run_fcn(std::bind(&UnstructuredPlanNode::publish_occupancy_grid,this));
         Baseapp::addTimerCallback(run_fcn);
         occupancies_publisher_ = getRosNodeHandle()->advertise<adore_if_ros_msg::PointArray>("occupancies",1);
-        //occupancies_publisher_ = getRosNodeHandle()->advertise<adore_if_ros_msg::PointArrayConstPtr>("occupancies",1);
         
       }
       void publish_occupancy_grid()
       {
         adore_if_ros_msg::PointArray msg;
-        //msg.x = app_->getOccupancies_x();
         msg.x = *app_->getOccupancies_x();
         msg.y = *app_->getOccupancies_y();
         occupancies_publisher_.publish(msg);
