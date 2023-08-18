@@ -16,8 +16,7 @@
 #include <adore_if_ros/factorycollection.h>
 
 #include <adore_if_ros_msg/PointArray.h>
-#include <adore/apps/trajectory_planner_base.h>
-#include <adore/fun/basicunstructuredplanner.h>
+#include <adore/apps/graph_search.h>
 
 
 namespace adore
@@ -27,8 +26,10 @@ namespace adore
     class UnstructuredPlanNode  : public FactoryCollection, public adore_if_ros_scheduling::Baseapp
     {
       public:
-      typedef adore::fun::BasicUnstructuredPlanner TUnstructuredPlanner;
+      typedef adore::apps::GraphSearch TUnstructuredPlanner;
       TUnstructuredPlanner* app_;
+
+      //adore::apps::TrajectoryPlannerLM* planner_;
 
       ros::Publisher occupancies_publisher_;
       UnstructuredPlanNode(){}
@@ -39,11 +40,13 @@ namespace adore
         FactoryCollection::init(getRosNodeHandle());
 
         app_ = new TUnstructuredPlanner;
+
+        //planner_ = new adore::apps::TrajectoryPlannerLM(directionLeft,name,id);
         
         bool use_scheduler = false;
         getRosNodeHandle()->getParam("/use_scheduler",use_scheduler);
-        /*
-        error: no matching function for call to ‘std::function<void()>::function(std::_Bind_helper<false, void (adore::apps::TrajectoryPlannerBase::*)(), adore::fun::BasicUnstructuredPlanner*&>::type)’
+        
+        //error: no matching function for call to ‘std::function<void()>::function(std::_Bind_helper<false, void (adore::apps::TrajectoryPlannerBase::*)(), adore::fun::BasicUnstructuredPlanner*&>::type)’
         if(use_scheduler)
         {
           //std::function<void()> run_fcn(std::bind(&adore::apps::TrajectoryPlannerBase::planning_request_handler,planner_));
@@ -52,8 +55,8 @@ namespace adore
         }
         else
         {
-          planner_->prime();//node is executed event-based on PlanningRequest, prime sets trigger
-        }*/
+          app_->prime();//node is executed event-based on PlanningRequest, prime sets trigger
+        }
         // timer callbacks
         std::function<void()> run_fcn(std::bind(&UnstructuredPlanNode::publish_occupancy_grid,this));
         Baseapp::addTimerCallback(run_fcn);
@@ -63,8 +66,10 @@ namespace adore
       void publish_occupancy_grid()
       {
         adore_if_ros_msg::PointArray msg;
-        msg.x = *app_->getOccupancies_x();
-        msg.y = *app_->getOccupancies_y();
+        msg.x.push_back(app_->getWidth());
+        msg.y.push_back(app_->getLength());
+        app_->getOccupancies_x(msg.x);
+        app_->getOccupancies_y(msg.y);
         occupancies_publisher_.publish(msg);
 
       }
