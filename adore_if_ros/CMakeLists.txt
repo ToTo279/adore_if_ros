@@ -940,26 +940,6 @@ target_link_libraries(adore_trajectory_planner_lf_node
                           adore_if_ros_scheduling::adore_if_ros_scheduling
 )
 
-add_executable(adore_unstructured_planner_node src/adore_unstructured_planner_node.cpp)
-target_include_directories(
-    adore_unstructured_planner_node
-    PRIVATE
-    include 
-    ${catkin_INCLUDE_DIRS}
-)
-target_link_libraries(adore_unstructured_planner_node 
-                        PRIVATE 
-                          ${catkin_LIBRARIES} 
-                          libadore::apps 
-                          libadore::fun 
-                          libadore::env 
-                          libadore::sim 
-                          libadore::if_r2s 
-                          dlib::dlib
-                          adore_if_ros_scheduling::adore_if_ros_scheduling
-                          plotlablib::plotlablib
-)
-
 add_executable(adore_trajectory_planner_lm_node src/adore_trajectory_planner_lm_node.cpp)
 target_include_directories(
     adore_trajectory_planner_lm_node 
@@ -1081,11 +1061,25 @@ target_link_libraries(plainxmlexporter
                           plotlablib::plotlablib
 )
 
-#add_executable(test_graphSearch src/test_graphSearch.cpp)
-#target_include_directories(test_graphSearch PRIVATE include ${catkin_INCLUDE_DIRS})
-#target_link_libraries(test_graphSearch PRIVATE ${catkin_LIBRARIES} libadore::apps libadore::fun libadore::env libadore::sim libadore::mad adore_if_ros_scheduling::adore_if_ros_scheduling)
-
-
+add_executable(adore_unstructured_planner_node src/adore_unstructured_planner_node.cpp)
+target_include_directories(
+    adore_unstructured_planner_node
+    PRIVATE
+    include 
+    ${catkin_INCLUDE_DIRS}
+)
+target_link_libraries(adore_unstructured_planner_node 
+                        PRIVATE 
+                          ${catkin_LIBRARIES} 
+                          libadore::apps 
+                          libadore::fun 
+                          libadore::env 
+                          libadore::sim 
+                          libadore::if_r2s 
+                          dlib::dlib
+                          adore_if_ros_scheduling::adore_if_ros_scheduling
+                          plotlablib::plotlablib
+)
 
 ## Specify libraries to link a library or executable target against
 # link against target adore_if_xodr instead of library
@@ -1167,8 +1161,8 @@ install(
     adore_trajectory_planner_lm_node
     adore_trajectory_planner_lc_node
     adore_trajectory_planner_alc_node
-    adore_unstructured_planner_node
     adore_tactical_planner_node
+    adore_unstructured_planner_node
     test_lc_trajectory_planner_node
     test_straight_line_prediction_node
     adore_gap_provider
@@ -1204,7 +1198,6 @@ install(
     plot_trajectories_node
     plot_roadannotations_node
     adore_pvprovider_node
-    #test_graphSearch
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 install(
