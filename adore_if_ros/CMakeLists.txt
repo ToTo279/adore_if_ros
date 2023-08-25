@@ -841,7 +841,9 @@ target_link_libraries(plot_occupancy_grid_node
                           ${catkin_LIBRARIES} 
                           libadore::apps 
                           libadore::sim 
-                          libadore::mad 
+                          libadore::mad
+                          libadore::fun
+                          libadore::env 
                           plotlablib::plotlablib
                           adore_if_ros_scheduling::adore_if_ros_scheduling
 )

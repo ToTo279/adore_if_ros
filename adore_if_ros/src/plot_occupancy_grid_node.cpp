@@ -12,7 +12,7 @@
 *   Thomas Lobig
 ********************************************************************************/
 
-#include <adore/apps/plot_graph_search.h>
+#include <adore/apps/plot_occupancy_grid.h>
 #include <plotlablib/figurestubfactory.h>
 #include <adore_if_ros_scheduling/baseapp.h>
 #include <adore_if_ros/factorycollection.h>
@@ -26,7 +26,7 @@ namespace adore
     class PlotOccupancyGridNode : public FactoryCollection, public adore_if_ros_scheduling::Baseapp
     {
       public:
-      adore::apps::PlotGraphSearch* app_;
+      adore::apps::PlotOccupanyGrid* app_;
       ros::Subscriber occupancies_subscriber_; 
       PlotOccupancyGridNode(){}
       void init(int argc, char **argv, double rate, std::string nodename)
@@ -43,9 +43,12 @@ namespace adore
 
         std::stringstream ss;
         ss<<"v"<<simulationID<<"/unstructured/";
-        app_ = new adore::apps::PlotGraphSearch(figure,
+        app_ = new adore::apps::PlotOccupanyGrid();
+        /*
+        app_ = new adore::apps::PlotOccupanyGrid(figure,
                                             ss.str());
-        std::function<void()> run_fcn(std::bind(&adore::apps::PlotGraphSearch::run,app_));
+        */
+        std::function<void()> run_fcn(std::bind(&adore::apps::PlotOccupanyGrid::run,app_));
         Baseapp::addTimerCallback(run_fcn);
         occupancies_subscriber_ = getRosNodeHandle()->subscribe("occupancies",1,&PlotOccupancyGridNode::receive,this); 
       }
@@ -53,8 +56,8 @@ namespace adore
       void receive(adore_if_ros_msg::PointArrayConstPtr msg)
       {
         //TO DO: Plotting der occupenciey mit den Koordinaten msg->x & msg->y
-        app_->occupancies_x = msg->x;
-        app_->occupancies_y = msg->y;
+        app_->occupancies_x.push_back(msg->x);
+        app_->occupancies_y.push_back(msg->y);
 
       }
 
