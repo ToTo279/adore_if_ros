@@ -833,6 +833,19 @@ target_link_libraries(plot_views_node
                           adore_if_ros_scheduling::adore_if_ros_scheduling
 )
 
+add_executable(plot_occupancy_grid_node)
+target_sources(plot_occupancy_grid_node PRIVATE src/plot_occupancy_grid_node.cpp)
+target_include_directories(plot_occupancy_grid_node PRIVATE include ${catkin_INCLUDE_DIRS})
+target_link_libraries(plot_occupancy_grid_node
+                        PRIVATE 
+                          ${catkin_LIBRARIES} 
+                          libadore::apps 
+                          libadore::sim 
+                          libadore::mad 
+                          plotlablib::plotlablib
+                          adore_if_ros_scheduling::adore_if_ros_scheduling
+)
+
 
 add_executable(adore_pvprovider_node)
 target_sources(adore_pvprovider_node PRIVATE src/adore_pvprovider_node.cpp)
@@ -1197,6 +1210,7 @@ install(
     plot_views_node
     plot_trajectories_node
     plot_roadannotations_node
+    plot_occupancy_grid_node
     adore_pvprovider_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
