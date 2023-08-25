@@ -65,7 +65,7 @@ namespace adore
 int main(int argc,char **argv)
 {
     adore::if_ROS::PlotOccupancyGridNode appnode;    
-    appnode.init(argc, argv, 10, "plot_occupancy_grid");
+    appnode.init(argc, argv, 10, "plot_occupancy_grid_node");
     appnode.run();
     return 0;
 }

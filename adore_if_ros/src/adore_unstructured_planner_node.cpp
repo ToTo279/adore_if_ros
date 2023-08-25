@@ -73,6 +73,7 @@ namespace adore
         occupancies_publisher_.publish(msg);
 
       }
+
     };
   }
 }
@@ -80,7 +81,7 @@ namespace adore
 int main(int argc,char **argv)
 {
     adore::if_ROS::UnstructuredPlanNode node;
-    node.init(argc, argv, 10.0, "adore_unstructured_plan_node");
+    node.init(argc, argv, 10.0, "adore_unstructured_planner_node");
     node.run();
     return 0;
 }
